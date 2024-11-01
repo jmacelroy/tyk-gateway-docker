@@ -1,0 +1,118 @@
+@hostname = https://tyk-gateway.localhost:8080
+@adminAuth = foo
+
+@key = default62b77735b0d74360ac68669a0679c730
+
+### hello
+
+GET {{hostname}}/hello
+
+###
+
+GET {{hostname}}/tyk/keys/
+x-tyk-authorization:{{adminAuth}}
+
+### list certs
+
+GET {{hostname}}/tyk/certs
+x-tyk-authorization:{{adminAuth}}
+
+### list apis
+
+GET {{hostname}}/tyk/apis
+x-tyk-authorization:{{adminAuth}}
+
+### keyless httpbin test api
+
+GET {{hostname}}/keyless-test/get
+
+### create key for test in repo
+
+GET {{hostname}}/tyk/reload/group
+X-Tyk-Authorization: foo
+
+### protected api for test in repo
+
+GET {{hostname}}//tyk-api-test/get
+Authorization: default888fb2f61b0b407caef08a6a95e4e3c4
+
+###
+
+GET {{hostname}}//dynamic/get
+Authorization: logistics3d57b614a04142d984e154ab38ab0d56
+
+### check key
+
+POST {{hostname}}/tyk/keys/preview
+X-Tyk-Authorization: foo
+
+{
+  "quota_max": 0,
+  "rate": 2,
+  "per": 5,
+  "org_id": "default",
+  "certificate": "certs/cert.pem",
+  "access_rights": {
+      "dynamic": {
+          "api_name": "Tyk Dynamic API",
+          "api_id": "dynamic",
+          "versions": [
+              "Default"
+          ],
+          "allowed_urls": [],
+          "limit": null,
+          "allowance_scope": ""
+      }
+    }
+}
+
+
+### create key for custom dynamic mTLS demo
+
+POST {{hostname}}/tyk/keys
+X-Tyk-Authorization: foo
+
+{
+  "quota_max": 0,
+  "rate": 2,
+  "per": 5,
+  "org_id": "default",
+  "certificate": "certs/public.pem",
+  "access_rights": {
+      "dynamic": {
+          "api_name": "dynamic",
+          "api_id": "dynamic",
+          "versions": [
+              "Default"
+          ],
+          "allowed_urls": [],
+          "limit": null,
+          "allowance_scope": ""
+      }
+    }
+}
+
+
+### create key for the built-in demo
+
+POST {{hostname}}/tyk/keys
+X-Tyk-Authorization: foo
+
+{
+  "quota_max": 0,
+  "rate": 2,
+  "per": 5,
+  "org_id": "default",
+  "access_rights": {
+      "1": {
+          "api_name": "Tyk Test API",
+          "api_id": "1",
+          "versions": [
+              "Default"
+          ],
+          "allowed_urls": [],
+          "limit": null,
+          "allowance_scope": ""
+      }
+    }
+}

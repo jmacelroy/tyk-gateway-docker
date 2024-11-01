@@ -7,13 +7,15 @@ services:
     networks:
       - tyk
     volumes:
-      - ./tyk.standalone.conf:/opt/tyk-gateway/tyk.conf
+      - ./tyk.standalone.tls.conf:/opt/tyk-gateway/tyk.conf
       - ./apps:/opt/tyk-gateway/apps
       - ./middleware:/opt/tyk-gateway/middleware
       - ./certs:/opt/tyk-gateway/certs
       - ./policies:/opt/tyk-gateway/policies
     environment:
       - TYK_GW_SECRET=foo
+      - TYK_LOGLEVEL=debug
+      - TYK_GW_ENABLEHASHEDKEYSLISTING=true
     depends_on:
       - tyk-redis
   tyk-redis:

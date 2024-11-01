@@ -1,0 +1,32 @@
+{
+    "name": "dynamic",
+    "api_id": "dynamic",
+    "org_id": "default",
+    "definition": {
+        "location": "header",
+        "key": "version"
+    },
+    "client_certificates": [
+        "certs/public.pem"
+    ],
+    "auth_configs": {
+        "authToken": {
+            "auth_header_name": "Authorization",
+            "use_certificate": true
+        }
+    },
+    "version_data": {
+        "not_versioned": true,
+        "versions": {
+            "Default": {
+                "name": "Default"
+            }
+        }
+    },
+    "proxy": {
+        "listen_path": "/dynamic/",
+        "target_url": "http://httpbin.org",
+        "strip_listen_path": true
+    },
+    "use_mutual_tls_auth": false
+}
